@@ -20,7 +20,7 @@ const Navbar = () => {
       {/* ========================== */}
       {/* ======== NAVBAR ========= */}
       {/* ========================== */}
-      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm z-50">
+      <nav className="fixed top-0 left-0 right-0 bg-white backdrop-blur-md shadow-sm z-50">
         <div className="container mx-auto flex items-center justify-between px-4 py-3">
           
           {/* === KIRI: LOGO === */}

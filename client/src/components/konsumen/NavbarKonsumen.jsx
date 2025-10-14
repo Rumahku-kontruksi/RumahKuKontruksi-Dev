@@ -1,51 +1,127 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { FaUserCircle, FaProjectDiagram, FaComments, FaStream } from "react-icons/fa";
+import { FaUserCircle, FaProjectDiagram, FaStream, FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 
 const NavbarKonsumen = () => {
-  return (
-    <nav className="bg-teal-700 text-white py-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center px-6">
-        <h1 className="text-xl font-bold tracking-wide">RKK Konsumen</h1>
+  const [menuOpen, setMenuOpen] = useState(false);
 
-        <div className="flex items-center gap-6">
+  return (
+    <nav className="bg-white text-teal-700 shadow-md fixed w-full z-50">
+      <div className="container mx-auto flex justify-between items-center px-6 py-3">
+        
+        {/* LOGO */}
+        <div className="flex items-center gap-2">
+          <img
+            src="https://res.cloudinary.com/dmv4vtgbw/image/upload/v1760437039/RKK-logo_ougu97.png"
+            alt="RKK Logo"
+            className="w-12 h-12 object-contain rounded-full p-1"
+          />
+          {/* Nama Konsumen di desktop */}
+          <h2 className="hidden md:block text-xl font-semibold text-teal-700">
+            Nama Konsumen
+          </h2>
+        </div>
+
+        {/* MENU DESKTOP */}
+        <div className="hidden md:flex items-center gap-6">
           <NavLink
-            to="/konsumen/timeline"
+            to="/konsumen/TimelineProyek"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 font-semibold" : "hover:text-yellow-200"
+              `flex items-center gap-1 font-medium transition-colors ${
+                isActive ? "text-teal-500" : "hover:text-teal-500"
+              }`
             }
           >
-            <FaStream className="inline mr-1" /> Timeline
+            <FaStream /> Timeline
           </NavLink>
 
           <NavLink
             to="/konsumen/proyek"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 font-semibold" : "hover:text-yellow-200"
+              `flex items-center gap-1 font-medium transition-colors ${
+                isActive ? "text-teal-500" : "hover:text-teal-500"
+              }`
             }
           >
-            <FaProjectDiagram className="inline mr-1" /> Proyek
-          </NavLink>
-
-          <NavLink
-            to="/konsumen/pesan"
-            className={({ isActive }) =>
-              isActive ? "text-yellow-300 font-semibold" : "hover:text-yellow-200"
-            }
-          >
-            <FaComments className="inline mr-1" /> Pesan
+            <FaProjectDiagram /> Proyek
           </NavLink>
 
           <NavLink
             to="/konsumen/profil"
             className={({ isActive }) =>
-              isActive ? "text-yellow-300 font-semibold" : "hover:text-yellow-200"
+              `flex items-center gap-1 font-medium transition-colors ${
+                isActive ? "text-teal-500" : "hover:text-teal-500"
+              }`
             }
           >
-            <FaUserCircle className="inline mr-1" /> Profil
+            <FaUserCircle /> Profil
           </NavLink>
+
+          <button
+            className="flex items-center gap-1 bg-red-500 text-white hover:bg-red-700 px-3 py-1 rounded transition-colors"
+            onClick={() => alert("Logout clicked!")}
+          >
+            <FaSignOutAlt /> Logout
+          </button>
+        </div>
+
+        {/* BUTTON HAMBURGER MOBILE */}
+        <div className="md:hidden">
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
         </div>
       </div>
+
+      {/* MENU MOBILE */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-md">
+          <div className="flex flex-col gap-4 p-4">
+            <NavLink
+              to="/konsumen/timeline"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-2 font-medium transition-colors ${
+                  isActive ? "text-teal-500" : "hover:text-teal-500"
+                }`
+              }
+            >
+              <FaStream /> Timeline
+            </NavLink>
+
+            <NavLink
+              to="/konsumen/proyek"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-2 font-medium transition-colors ${
+                  isActive ? "text-teal-500" : "hover:text-teal-500"
+                }`
+              }
+            >
+              <FaProjectDiagram /> Proyek
+            </NavLink>
+
+            <NavLink
+              to="/konsumen/profil"
+              onClick={() => setMenuOpen(false)}
+              className={({ isActive }) =>
+                `flex items-center gap-2 font-medium transition-colors ${
+                  isActive ? "text-teal-500" : "hover:text-teal-500"
+                }`
+              }
+            >
+              <FaUserCircle /> Profil
+            </NavLink>
+
+            <button
+              className="flex items-center gap-2 bg-red-500 text-white hover:bg-red-700 px-3 py-1 rounded transition-colors"
+              onClick={() => { setMenuOpen(false); alert("Logout clicked!"); }}
+            >
+              <FaSignOutAlt /> Logout
+            </button>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

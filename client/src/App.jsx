@@ -13,11 +13,7 @@ import About from "./pages/Tentang";
 import Contact from "./pages/Contact";
 
 // ===== HALAMAN KONSUMEN =====
-//  import Timeline from "./pages/konsumen/Timeline";
-//  import Proyek from "./pages/konsumen/Proyek";
-//  import Profil from "./pages/konsumen/Profil";
-
-import Timeline from "./pages/konsumen/Timeline";
+import TimelineProyek from "./pages/konsumen/TimelineProyek";
 import Proyek from "./pages/konsumen/Proyek";
 import Profil from "./pages/konsumen/Profil";
 
@@ -34,7 +30,7 @@ function App() {
 
         {/* ================== KONSUMEN LAYOUT ================== */}
         <Route path="/konsumen" element={<KonsumenLayout />}>
-          <Route path="timeline" element={<Timeline />} />
+          <Route path="TimelineProyek" element={<TimelineProyek />} />
           <Route path="proyek" element={<Proyek />} />
           <Route path="profil" element={<Profil />} />
         </Route>
