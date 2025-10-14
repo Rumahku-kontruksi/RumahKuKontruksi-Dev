@@ -1,154 +1,200 @@
 // client/src/components/Navbar.jsx
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { TbLogin2 } from "react-icons/tb"; // Icon untuk tombol login
+import { HiMenuAlt3, HiX } from "react-icons/hi"; // Icon menu burger & close
 
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { TbLogin2 } from "react-icons/tb";
-import axios from 'axios';
-import Logo from "../assets/rumahku-kontruksi-high-resolution-logo-transparent.png";
+// URL logo yang dihosting di Cloudinary
+const Logo =
+  "https://res.cloudinary.com/dmv4vtgbw/image/upload/v1760437039/rumahku-kontruksi-high-resolution-logo-transparent_rxswjp.png";
 
 const Navbar = () => {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  // State untuk toggle menu navigasi di mobile
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.get('http://localhost:3000/login');
-      const allUsers = response.data.data;
-
-      const user = allUsers.find(u => u.email === email && u.password === password);
-
-      if (!user) {
-        setError('Email atau password salah');
-        return;
-      }
-
-      if (email.endsWith('@pengawas.com') || email.endsWith('@mandor.com')) {
-        navigate('/admin');
-      } else if (email.endsWith('@konsumen.com')) {
-        navigate('/konsumen');
-      } else {
-        setError('Email tidak dikenali');
-      }
-    } catch (err) {
-      console.error(err);
-      setError('Terjadi kesalahan saat login');
-    }
-  };
+  // State untuk toggle modal login
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <nav className="navbar fixed bg-white shadow-sm z-10 px-6 py-3 flex justify-between items-center">
-      {/* Kiri - Dropdown Menu */}
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h7"
-              />
-            </svg>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
+    <>
+      {/* ========================== */}
+      {/* ======== NAVBAR ========= */}
+      {/* ========================== */}
+      <nav className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md shadow-sm z-50">
+        <div className="container mx-auto flex items-center justify-between px-4 py-3">
+          
+          {/* === KIRI: LOGO === */}
+          <Link to="/" className="flex items-center flex-shrink-0">
+            <img
+              src={Logo}
+              alt="Logo RumahKu Konstruksi"
+              className="w-32 md:w-36 hover:scale-105 transition-transform"
+            />
+          </Link>
+
+          {/* === TENGAH: MENU NAVIGASI === */}
+          <div
+            className={`absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none transition-all duration-300 ease-in-out ${
+              menuOpen
+                ? "opacity-100 visible"
+                : "opacity-0 invisible md:visible md:opacity-100"
+            }`}
           >
-            <li><Link to="/">Beranda</Link></li>
-            <li><Link to="/about">Tentang</Link></li>
-            <li><Link to="/contact">Kontak</Link></li>
-          </ul>
-        </div>
-      </div>
+            {/* Menu disusun fleksibel agar bisa berubah menjadi kolom di mobile */}
+            <div className="flex flex-col md:flex-row md:items-center justify-center md:gap-8 p-4 md:p-0">
+              {/* Map daftar menu */}
+              {["Beranda", "Tentang", "Kontak"].map((item) => (
+                <Link
+                  key={item}
+                  to={
+                    item === "Beranda"
+                      ? "/"
+                      : item === "Tentang"
+                      ? "/about"
+                      : "/contact"
+                  }
+                  className="text-gray-700 hover:text-teal-600 font-medium transition-colors py-2 md:py-0"
+                  onClick={() => setMenuOpen(false)} // menutup menu setelah klik
+                >
+                  {item}
+                </Link>
+              ))}
+            </div>
+          </div>
 
-      {/* Tengah - Logo */}
-      <div className="navbar-center">
-        <Link to="/">
-          <img className="w-40" src={Logo} alt="Logo RumahKuKonstruksi" />
-        </Link>
-      </div>
-
-      {/* Kanan - Tombol Login */}
-      <div className="navbar-end">
-        <button
-          className="btn btn-accent text-white flex items-center gap-1"
-          onClick={() => document.getElementById("my_modal_3").showModal()}
-        >
-          <TbLogin2 /> Sign In
-        </button>
-
-        {/* Modal Login */}
-        <dialog id="my_modal_3" className="modal">
-          <div className="modal-box">
+          {/* === KANAN: TOMBOL LOGIN DAN MENU MOBILE === */}
+          <div className="flex items-center gap-4">
+            {/* Tombol login desktop (ada teks Sign In) */}
             <button
-              className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-              onClick={() => document.getElementById("my_modal_3").close()}
+              className="hidden md:flex items-center gap-2 bg-teal-600 hover:bg-teal-700 text-white font-medium px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-lg"
+              onClick={() => setIsModalOpen(true)} // buka modal login
+            >
+              <TbLogin2 size={20} />
+              Sign In
+            </button>
+
+            {/* Tombol login mobile (hanya ikon) */}
+            <button
+              className="md:hidden text-teal-600 hover:text-teal-800 transition-colors"
+              onClick={() => setIsModalOpen(true)} // buka modal login
+            >
+              <TbLogin2 size={24} />
+            </button>
+
+            {/* Tombol toggle menu burger mobile */}
+            <button
+              className="md:hidden text-gray-700 hover:text-teal-600 transition-colors"
+              onClick={() => setMenuOpen(!menuOpen)} // buka/tutup menu
+            >
+              {menuOpen ? <HiX size={26} /> : <HiMenuAlt3 size={26} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* ========================== */}
+      {/* ======= MODAL LOGIN ====== */}
+      {/* ========================== */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn"
+          // Klik area luar modal untuk menutup
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsModalOpen(false);
+          }}
+        >
+          {/* Box modal utama */}
+          <div className="bg-white rounded-2xl shadow-2xl w-11/12 max-w-md p-6 relative animate-scaleIn">
+            {/* Tombol close (✕ di pojok kanan atas) */}
+            <button
+              className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 text-2xl"
+              onClick={() => setIsModalOpen(false)}
             >
               ✕
             </button>
 
-            <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-              <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 className="text-xl font-bold text-gray-900 md:text-2xl dark:text-white text-center">
-                  Sign In Access
-                </h1>
+            {/* Judul modal */}
+            <h2 className="text-2xl font-semibold text-center text-gray-800 mb-6">
+              Masuk ke Akun Anda
+            </h2>
 
-                {error && <p className="text-red-500 text-center">{error}</p>}
-
-                <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
-                  <div>
-                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                      placeholder="name@company.com"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                      required
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="text-white bg-teal-600 py-1.5 px-4 rounded w-full hover:bg-teal-700"
-                  >
-                    SIGN IN
-                  </button>
-                </form>
+            {/* Form login */}
+            <form className="space-y-4">
+              {/* Input email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Alamat Email
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="nama@company.com"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  required
+                />
               </div>
-            </div>
+
+              {/* Input password */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
+                  Kata Sandi
+                </label>
+                <input
+                  id="password"
+                  type="password"
+                  placeholder="••••••••"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  required
+                />
+              </div>
+
+              {/* Tombol login */}
+              <button
+                type="button"
+                onClick={() => alert("Login hanya tampilan frontend.")}
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 rounded-lg transition-colors shadow-md"
+              >
+                SIGN IN
+              </button>
+
+              {/* Link ke halaman daftar */}
+              <p className="text-sm text-center text-gray-500 mt-3">
+                Belum punya akun?{" "}
+                <a href="#" className="text-teal-600 hover:underline font-medium">
+                  Daftar Sekarang
+                </a>
+              </p>
+            </form>
           </div>
-        </dialog>
-      </div>
-    </nav>
+        </div>
+      )}
+
+      {/* ========================== */}
+      {/* ======= ANIMASI CSS ====== */}
+      {/* ========================== */}
+      <style>{`
+        /* Animasi muncul overlay (fade-in) */
+        @keyframes fadeIn {
+          from { opacity: 0 }
+          to { opacity: 1 }
+        }
+
+        /* Animasi modal muncul dari skala kecil (zoom-in) */
+        @keyframes scaleIn {
+          from { transform: scale(0.9); opacity: 0 }
+          to { transform: scale(1); opacity: 1 }
+        }
+
+        .animate-fadeIn { animation: fadeIn 0.25s ease-out forwards }
+        .animate-scaleIn { animation: scaleIn 0.25s ease-out forwards }
+      `}</style>
+    </>
   );
 };
 
