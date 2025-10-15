@@ -28,19 +28,40 @@ import ProgresProyekMandor from "./pages/mandor/ProgresProyekMandor";
 
 // ===== HALAMAN ADMIN =====
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
+// ----- Proyek ------
 import ProyekAdmin from "./pages/admin/proyek/ProyekAdmin";
+import RencanaAnggaranAdmin from "./pages/admin/proyek/RencanaAnggaranAdmin";
+import RencanaAnggaran from "./pages/admin/proyek/RencanaAnggaran";
+import DaftarTimelineProyekAdmin from "./pages/admin/proyek/DaftarTimelineProyekAdmin";
+import LaporanProyekAdmin from "./pages/admin/proyek/LaporanProyekAdmin";
+import DetailLaporanProyekAdmin from "./pages/admin/proyek/DetailLaporanProyekAdmin";
+import DaftarDokumentasiProyek from "./pages/admin/proyek/DaftarDokumentasiProyek";
+import DetailDokumentasiProyek from "./pages/admin/proyek/DetailDokumentasiProyek";
+import TimelineProyekAdmin from "./pages/admin/proyek/TimelineProyekAdmin";
 import TambahProyekAdmin from "./pages/admin/proyek/TambahProyekAdmin";
 import PengawasRABAdmin from "./pages/admin/proyek/PengawasRABAdmin";
 import PengajuanMandorAdmin from "./pages/admin/proyek/PengajuanMandorAdmin";
 import ProyekBerjalanAdmin from "./pages/admin/proyek/ProyekBerjalanAdmin";
 import HistoriProyekAdmin from "./pages/admin/proyek/HistoriProyekAdmin";
+import InputRABAdmin from "./pages/admin/proyek/InputRABAdmin";
+// ----- Pengawas ------
+import PengawasAdmin from "./pages/admin/pengawas/Pengawas";
+import LaporanPengawasAdmin from "./pages/admin/pengawas/LaporanPengawasAdmin";
+// ----- Mandor ------
+import MandorAdmin from "./pages/admin/mandor/MandorAdmin";
+import LaporanMandorAdmin from "./pages/admin/mandor/LaporanMandorAdmin"; 
+// ----- Konsumen ------
+import KonsumenAdmin from "./pages/admin/konsumen/KonsumenAdmin";
+import LaporanKonsumenAdmin from "./pages/admin/konsumen/TimelineProyekKonsumenAdmin";
+// ----- Laporan ------
+import LaporanAdmin from "./pages/admin/laporan/LaporanAdmin";
+import LaporanDashboard from "./pages/admin/laporan/LaporanDashboard";
+import LaporanKeuangan from "./pages/admin/laporan/LaporanKeuangan";
+import LaporanKonsumen from "./pages/admin/laporan/LaporanKonsumen";
+import LaporanMandor from "./pages/admin/laporan/LaporanMandor";
+import LaporanPengawas from "./pages/admin/laporan/LaporanPengawas";
+import LaporanProyek from "./pages/admin/laporan/LaporanProyek";
 
-// import KonsumenAdmin from "./pages/admin/KonsumenAdmin";
-// import MandorAdmin from "./pages/admin/MandorAdmin";
-// import PengawasAdmin from "./pages/admin/PengawasAdmin";
-// import LaporanAdmin from "./pages/admin/LaporanAdmin";
-// import PembayaranAdmin from "./pages/admin/PembayaranAdmin";
-// import SettingsAdmin from "./pages/admin/SettingsAdmin";
 
 function App() {
   return (
@@ -71,19 +92,42 @@ function App() {
 
         {/* ================== ADMIN LAYOUT ================== */}
         <Route path="/admin" element={<AdminLayout />}>
+        {/* // ----- Proyek ------ */}
           <Route path="dashboard" element={<DashboardAdmin />} />
           <Route path="proyek" element={<ProyekAdmin />} />
           <Route path="proyek/tambah" element={<TambahProyekAdmin />} />
+          <Route path="proyek/rab" element={<RencanaAnggaranAdmin />} />
+          <Route path="proyek/ra" element={<RencanaAnggaran />} />
+          <Route path="proyek/daftartimeline" element={<DaftarTimelineProyekAdmin />} />
+          <Route path="proyek/timelineproyek/:id" element={<TimelineProyekAdmin />} />
+          <Route path="proyek/laporan-proyek" element={<LaporanProyekAdmin />} />
+          <Route path="proyek/laporan-proyek/:id" element={<DetailLaporanProyekAdmin />} />
+          <Route path="proyek/dokumentasi-proyek" element={<DaftarDokumentasiProyek />} /> 
+          <Route path="proyek/dokumentasi-proyek/:id" element={<DetailDokumentasiProyek />} />
           <Route path="proyek/pengawasrab" element={<PengawasRABAdmin />} />
           <Route path="proyek/mandor" element={<PengajuanMandorAdmin />} />
           <Route path="proyek/berjalan" element={<ProyekBerjalanAdmin />} />
           <Route path="proyek/histori" element={<HistoriProyekAdmin />} />
-          {/* <Route path="konsumen" element={<KonsumenAdmin />} />
-          <Route path="mandor" element={<MandorAdmin />} />
+          <Route path="proyek/inputrab" element={<InputRABAdmin />} />
+          {/* // ----- Pengawas ------ */}
           <Route path="pengawas" element={<PengawasAdmin />} />
-          <Route path="laporan" element={<LaporanAdmin />} />
-          <Route path="pembayaran" element={<PembayaranAdmin />} />
-          <Route path="settings" element={<SettingsAdmin />} /> */}
+          <Route path="pengawas/laporan" element={<LaporanPengawasAdmin />} />
+          {/* // ----- Mandor ------ */}
+          <Route path="mandor" element={<MandorAdmin />} />
+          <Route path="mandor/laporan" element={<LaporanMandorAdmin />} />
+          {/* // ----- konsumen ------ */}
+          <Route path="konsumen/" element={<KonsumenAdmin />} />
+          <Route path="konsumen/timeline" element={<LaporanKonsumenAdmin />} />
+          {/* // ----- Laporan ------ */}
+          <Route path="laporan/" element={<LaporanAdmin />} />
+          <Route path="laporan/mingguan" element={<LaporanDashboard />} />
+          <Route path="laporan/keseluruhan" element={<LaporanKeuangan />} />
+          <Route path="laporan/konsumen" element={<LaporanKonsumen />} />
+          <Route path="laporan/mandor" element={<LaporanMandor />} />
+          <Route path="laporan/pengawas" element={<LaporanPengawas />} />
+          <Route path="laporan/proyek" element={<LaporanProyek />} />
+
+          
         </Route>
       </Routes>
     </Router>

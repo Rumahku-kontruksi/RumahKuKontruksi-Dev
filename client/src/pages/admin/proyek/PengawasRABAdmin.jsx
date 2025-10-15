@@ -1,8 +1,17 @@
 // client/src/pages/admin/PengawasRABAdmin.jsx
 import React, { useState } from "react";
-import { HiEye, HiPlus, HiUserAdd, HiUpload, HiTrash } from "react-icons/hi";
+import {
+  HiEye,
+  HiPlus,
+  HiUserAdd,
+  HiUpload,
+  HiTrash,
+} from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const PengawasRABAdmin = () => {
+  const navigate = useNavigate(); // ✅ untuk navigasi ke halaman input RAB
+
   const [proyekList, setProyekList] = useState([
     {
       id: 1,
@@ -26,22 +35,34 @@ const PengawasRABAdmin = () => {
     },
   ]);
 
+  // ====== HAPUS PROYEK ======
   const handleHapus = (id) => {
     if (window.confirm("Apakah Anda yakin ingin menghapus proyek ini?")) {
-      setProyekList(proyekList.filter((p) => p.id !== id));
+      setProyekList((proyekList) => proyekList.filter((p) => p.id !== id));
     }
   };
 
   return (
     <div className="p-6 bg-white rounded-xl shadow">
+      {/* ================= HEADER ================= */}
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Pengawas & RAB</h2>
+        <h2 className="text-2xl font-bold text-teal-700">
+          Penunjukan Pengawas & Input RAB
+        </h2>
+
+        <button
+          onClick={() => navigate("/admin/proyek/inputrab")}
+          className="btn btn-sm btn-success flex items-center gap-1"
+        >
+          <HiPlus /> Tambah RAB
+        </button>
       </div>
 
+      {/* ================= TABEL ================= */}
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
-            <tr>
+            <tr className="bg-teal-600 text-white text-sm">
               <th>Nama Proyek</th>
               <th>Alamat Proyek</th>
               <th>Konsumen</th>
@@ -57,7 +78,7 @@ const PengawasRABAdmin = () => {
                 <td>{proyek.nama}</td>
                 <td>{proyek.alamat}</td>
                 <td>{proyek.konsumen}</td>
-                <td>Rp {proyek.nilai.toLocaleString()}</td>
+                <td>Rp {proyek.nilai.toLocaleString("id-ID")}</td>
                 <td>
                   <span
                     className={`px-2 py-1 rounded-full text-white font-semibold ${
@@ -76,19 +97,26 @@ const PengawasRABAdmin = () => {
                 <td>
                   {proyek.tanggalMulai} / {proyek.tanggalSelesai}
                 </td>
-                <td className="flex gap-2 flex-wrap">
+                <td className="flex flex-wrap gap-2">
                   <button className="btn btn-sm btn-info flex items-center gap-1">
                     <HiEye /> View
                   </button>
-                  <button className="btn btn-sm btn-primary flex items-center gap-1">
+
+                  <button
+                    onClick={() => navigate("/admin/proyek/inputrab")}
+                    className="btn btn-sm btn-primary flex items-center gap-1"
+                  >
                     <HiPlus /> Tambah RAB
                   </button>
+
                   <button className="btn btn-sm btn-warning flex items-center gap-1">
                     <HiUserAdd /> Tunjuk Pengawas
                   </button>
+
                   <button className="btn btn-sm btn-success flex items-center gap-1">
                     <HiUpload /> Post
                   </button>
+
                   <button
                     onClick={() => handleHapus(proyek.id)}
                     className="btn btn-sm btn-error flex items-center gap-1"
