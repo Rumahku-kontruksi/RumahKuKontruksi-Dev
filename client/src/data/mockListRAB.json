@@ -1,0 +1,176 @@
+[
+    {
+      "id": "PRJ-001",
+      "nama": "Renovasi Rumah Pak Budi",
+      "kategori": [
+        {
+          "id": "KAT-101",
+          "namaKategori": "Pekerjaan Pondasi",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-1001",
+              "namaPekerjaan": "Galian Pondasi",
+              "uraian": "Menggali tanah untuk pondasi rumah",
+              "spesifikasi": "Lebar 50cm, kedalaman 1.2m",
+              "sat": "m3",
+              "volume": 10,
+              "hargaSatuan": 75000,
+              "total": 750000
+            },
+            {
+              "id": "PKJ-1002",
+              "namaPekerjaan": "Pemasangan Besi Tulangan",
+              "uraian": "Memasang besi tulangan untuk pondasi",
+              "spesifikasi": "Besi Ø12mm",
+              "sat": "kg",
+              "volume": 150,
+              "hargaSatuan": 12000,
+              "total": 1800000
+            }
+          ],
+          "totalKategori": 2550000
+        },
+        {
+          "id": "KAT-102",
+          "namaKategori": "Pekerjaan Struktur",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-1003",
+              "namaPekerjaan": "Pengecoran Sloof",
+              "uraian": "Mengecor sloof beton untuk rumah",
+              "spesifikasi": "Beton K-225",
+              "sat": "m3",
+              "volume": 6,
+              "hargaSatuan": 850000,
+              "total": 5100000
+            },
+            {
+              "id": "PKJ-1004",
+              "namaPekerjaan": "Pemasangan Kolom",
+              "uraian": "Membuat dan memasang kolom beton",
+              "spesifikasi": "Beton K-225, Ø20cm",
+              "sat": "m",
+              "volume": 20,
+              "hargaSatuan": 750000,
+              "total": 15000000
+            }
+          ],
+          "totalKategori": 20100000
+        }
+      ],
+      "totalKeseluruhan": 22650000
+    },
+    {
+      "id": "PRJ-002",
+      "nama": "Pembangunan Ruko Bu Sari",
+      "kategori": [
+        {
+          "id": "KAT-201",
+          "namaKategori": "Pekerjaan Struktur",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-2001",
+              "namaPekerjaan": "Pengecoran Pondasi",
+              "uraian": "Mengecor pondasi sesuai gambar kerja ruko",
+              "spesifikasi": "Beton K-225",
+              "sat": "m3",
+              "volume": 12,
+              "hargaSatuan": 850000,
+              "total": 10200000
+            }
+          ],
+          "totalKategori": 10200000
+        },
+        {
+          "id": "KAT-202",
+          "namaKategori": "Pekerjaan Atap",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-2002",
+              "namaPekerjaan": "Pemasangan Rangka Atap Baja Ringan",
+              "uraian": "Rangka atap baja ringan untuk ruko",
+              "spesifikasi": "Baja ringan 4m",
+              "sat": "m",
+              "volume": 80,
+              "hargaSatuan": 120000,
+              "total": 9600000
+            }
+          ],
+          "totalKategori": 9600000
+        }
+      ],
+      "totalKeseluruhan": 19800000
+    },
+    {
+      "id": "PRJ-003",
+      "nama": "Pembangunan Gudang PT Mulya Kencana",
+      "kategori": [
+        {
+          "id": "KAT-301",
+          "namaKategori": "Pekerjaan Struktur",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-3001",
+              "namaPekerjaan": "Pemasangan Kolom Beton",
+              "uraian": "Kolom beton untuk gudang",
+              "spesifikasi": "Beton K-225, Ø25cm",
+              "sat": "m",
+              "volume": 25,
+              "hargaSatuan": 800000,
+              "total": 20000000
+            }
+          ],
+          "totalKategori": 20000000
+        }
+      ],
+      "totalKeseluruhan": 20000000
+    },
+    {
+      "id": "PRJ-004",
+      "nama": "Renovasi Kantor PT Caviart",
+      "kategori": [
+        {
+          "id": "KAT-401",
+          "namaKategori": "Pekerjaan Interior",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-4001",
+              "namaPekerjaan": "Pengecatan Dinding",
+              "uraian": "Pengecatan interior kantor",
+              "spesifikasi": "Cat tembok interior",
+              "sat": "m2",
+              "volume": 120,
+              "hargaSatuan": 20000,
+              "total": 2400000
+            }
+          ],
+          "totalKategori": 2400000
+        }
+      ],
+      "totalKeseluruhan": 2400000
+    },
+    {
+      "id": "PRJ-005",
+      "nama": "Pembangunan Gazebo Wisata Ngaprak",
+      "kategori": [
+        {
+          "id": "KAT-501",
+          "namaKategori": "Pekerjaan Struktur",
+          "pekerjaanList": [
+            {
+              "id": "PKJ-5001",
+              "namaPekerjaan": "Pemasangan Rangka Gazebo",
+              "uraian": "Rangka gazebo kayu",
+              "spesifikasi": "Kayu 4x6cm",
+              "sat": "m",
+              "volume": 30,
+              "hargaSatuan": 90000,
+              "total": 2700000
+            }
+          ],
+          "totalKategori": 2700000
+        }
+      ],
+      "totalKeseluruhan": 2700000
+    }
+  ]

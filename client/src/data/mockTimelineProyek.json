@@ -1,0 +1,110 @@
+{
+  "proyek": {
+    "id_proyek": "PRJ-001",
+    "nama_proyek": "Renovasi Rumah Pak Budi",
+    "lokasi": "Bandung",
+    "tanggal_mulai": "2025-10-01",
+    "estimasi_selesai": "2025-12-31",
+    "id_pemilik": "K-01",
+    "id_mandor": "M-01",
+    "id_pengawas": "P-01"
+  },
+  "tasks": [
+    {
+      "id_task": "T-001",
+      "nama_kegiatan": "Pembersihan Lahan",
+      "deskripsi": "Membersihkan lahan dari puing dan sampah",
+      "kategori": "Sipil",
+      "prioritas": "Tinggi",
+      "tanggal_mulai": "2025-10-01",
+      "tanggal_selesai": "2025-10-03",
+      "durasi_hari": 3,
+      "dependency": null,
+      "personel": ["Mandor A", "Mandor B"],
+      "material": ["Alat kebersihan"],
+      "status": {
+        "persentase_selesai": 100,
+        "status_kegiatan": "Completed",
+        "catatan": "Selesai tepat waktu"
+      },
+      "laporan_mingguan": [
+        {
+          "minggu_ke": 1,
+          "ringkasan_pekerjaan": "Lahan dibersihkan, puing dibuang",
+          "kendala": "Hujan ringan hari kedua",
+          "rencana_minggu_berikutnya": "Mulai pondasi",
+          "persentase_progress": 100,
+          "foto": [
+            "https://placehold.co/400",
+            "https://placehold.co/400"
+          ]
+        }
+      ]
+    },
+    {
+      "id_task": "T-002",
+      "nama_kegiatan": "Pondasi",
+      "deskripsi": "Pengecoran pondasi rumah",
+      "kategori": "Sipil",
+      "prioritas": "Tinggi",
+      "tanggal_mulai": "2025-10-04",
+      "tanggal_selesai": "2025-10-10",
+      "durasi_hari": 7,
+      "dependency": "T-001",
+      "personel": ["Mandor C", "Mandor D"],
+      "material": ["Semen", "Batu", "Pasir", "Besi beton"],
+      "status": {
+        "persentase_selesai": 50,
+        "status_kegiatan": "On Schedule",
+        "catatan": "Cuaca baik, pekerjaan sesuai rencana"
+      },
+      "laporan_mingguan": [
+        {
+          "minggu_ke": 2,
+          "ringkasan_pekerjaan": "Pondasi sebagian selesai",
+          "kendala": "Keterlambatan pengiriman besi beton",
+          "rencana_minggu_berikutnya": "Lanjutkan pengecoran pondasi",
+          "persentase_progress": 50,
+          "foto": [
+            "https://placehold.co/400",
+            "https://placehold.co/400",
+            "https://placehold.co/400"
+          ]
+        }
+      ]
+    },
+    {
+      "id_task": "T-003",
+      "nama_kegiatan": "Struktur Lantai 1",
+      "deskripsi": "Pembangunan struktur lantai 1",
+      "kategori": "Sipil",
+      "prioritas": "Tinggi",
+      "tanggal_mulai": "2025-10-11",
+      "tanggal_selesai": "2025-10-20",
+      "durasi_hari": 10,
+      "dependency": "T-002",
+      "personel": ["Mandor E", "Mandor F"],
+      "material": ["Besi", "Semen", "Batu", "Pasir"],
+      "status": {
+        "persentase_selesai": 0,
+        "status_kegiatan": "Not Started",
+        "catatan": ""
+      },
+      "laporan_mingguan": []
+    }
+  ],
+  "milestone": [
+    {
+      "id_milestone": "M-001",
+      "nama_milestone": "Pondasi Selesai",
+      "tanggal": "2025-10-10",
+      "keterangan": "Pondasi rumah siap untuk lantai 1"
+    },
+    {
+      "id_milestone": "M-002",
+      "nama_milestone": "Struktur Lantai 1 Selesai",
+      "tanggal": "2025-10-20",
+      "keterangan": "Struktur lantai 1 siap untuk lantai 2"
+    }
+  ]
+}

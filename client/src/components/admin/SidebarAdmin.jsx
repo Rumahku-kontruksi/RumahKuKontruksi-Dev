@@ -16,8 +16,9 @@ import {
   HiClock,
   HiCheckCircle,
   HiCollection,
+  
 } from "react-icons/hi";
-import { FiSettings } from "react-icons/fi";
+
 import { MdSupervisorAccount } from "react-icons/md";
 
 const menuItems = [
@@ -29,14 +30,15 @@ const menuItems = [
     icon: <HiFolder size={20} />,
     subMenu: [
       { name: "Data Proyek", path: "/admin/proyek", icon: <HiClipboardList /> },
-      { name: "Rencana Anggaran (RAB)", path: "/admin/proyek/rab", icon: <HiCash /> },
+      { name: "Rencana Anggaran (RAB)", path: "/admin/proyek/DaftarRAB", icon: <HiCash /> },
       { name: "Timeline Proyek", path: "/admin/proyek/daftartimeline", icon: <HiClock /> },
       { name: "Laporan Proyek", path: "/admin/proyek/laporan-proyek", icon: <HiDocumentText /> },
       { name: "Dokumentasi Proyek", path: "/admin/proyek/dokumentasi-proyek", icon: <HiCollection /> },
       { name: "Persetujuan / Revisi", path: "/admin/proyek/revisi", icon: <HiCheckCircle /> },
-      { name: "Catatan Lapangan", path: "/admin/proyek/catatan", icon: <HiUserCircle /> },
+      { name: "Catatan Lapangan", path: "/admin/proyek/catatan-proyek", icon: <HiUserCircle /> },
       { name: "Proyek Berjalan", path: "/admin/proyek/berjalan", icon: <HiPlay /> },
       { name: "Histori Proyek", path: "/admin/proyek/histori", icon: <HiClock /> },
+     
     ],
   },
 
