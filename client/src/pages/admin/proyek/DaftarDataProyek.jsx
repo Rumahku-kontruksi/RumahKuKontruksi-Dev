@@ -1,29 +1,42 @@
+// client/src/pages/admin/proyek/DaftarDataProyek.jsx
 import React, { useState } from "react";
 import { HiPlus, HiEye, HiPencil, HiUpload } from "react-icons/hi";
 import dataProyek from "../../../data/mockProyek.json";
 import ModalDetailProyek from "../../../components/admin/proyek/ModalDetailProyek";
+import ModalInputProyek from "../../../components/admin/proyek/ModalInputProyek";
 
 const DaftarDataProyek = () => {
   const [proyek, setProyek] = useState(dataProyek);
   const [search, setSearch] = useState("");
   const [modalProyek, setModalProyek] = useState(null);
+  const [modalInput, setModalInput] = useState(false);
 
   // Filter proyek
   const filteredProyek = proyek.filter((p) =>
     (p.nama_proyek?.toLowerCase() || "").includes(search.toLowerCase())
   );
 
-  // Gabungkan array jadi string
-  const joinArray = (arr) => (Array.isArray(arr) ? arr.join(", ") : "-");
+  // Upload siap
+  const isUploadReady = (p) =>
+    p.id_mandor.length > 0 &&
+    p.id_pengawas.length > 0 &&
+    p.list_rab.length > 0;
 
-  // Upload siap (contoh sederhana: progress minimal 50%)
-  const isUploadReady = (p) => p.progress >= 50;
+  // Warna Mandor
+  const getMandorColor = (value) => {
+    if (!value || value.length === 0) return "text-red-600";
+    return "text-green-600";
+  };
 
-  // Warna progress bar
-  const getProgressColor = (progress) => {
-    if (progress === 100) return "bg-green-600";
-    if (progress >= 50) return "bg-yellow-400";
-    return "bg-red-500";
+  // Warna Pengawas
+  const getPengawasColor = (value) => {
+    if (!value || value.length === 0) return "text-yellow-600";
+    return "text-green-600";
+  };
+
+  // Fungsi menyimpan proyek baru dari modal
+  const handleSaveProyek = (newProyek) => {
+    setProyek((prev) => [...prev, newProyek]);
   };
 
   return (
@@ -38,7 +51,10 @@ const DaftarDataProyek = () => {
             onChange={(e) => setSearch(e.target.value)}
             className="border border-gray-300 rounded px-3 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
-          <button className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700">
+          <button
+            onClick={() => setModalInput(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded hover:bg-teal-700"
+          >
             <HiPlus /> Tambah Proyek
           </button>
         </div>
@@ -54,7 +70,6 @@ const DaftarDataProyek = () => {
               <th className="px-6 py-3">Mandor</th>
               <th className="px-6 py-3">Pengawas</th>
               <th className="px-6 py-3">Progress</th>
-              <th className="px-6 py-3">Status</th>
               <th className="px-6 py-3 text-center">Aksi</th>
             </tr>
           </thead>
@@ -67,18 +82,27 @@ const DaftarDataProyek = () => {
                 <td className="px-6 py-3">{idx + 1}</td>
                 <td className="px-6 py-3 font-medium">{p.nama_proyek}</td>
                 <td className="px-6 py-3">{p.nilai_proyek?.toLocaleString("id-ID")}</td>
-                <td className="px-6 py-3 font-semibold text-green-600">{joinArray(p.id_mandor)}</td>
-                <td className="px-6 py-3 font-semibold text-green-600">{joinArray(p.id_pengawas)}</td>
+                <td className={`px-6 py-3 font-semibold ${getMandorColor(p.id_mandor)}`}>
+                  {p.id_mandor.join(", ") || "-"}
+                </td>
+                <td className={`px-6 py-3 font-semibold ${getPengawasColor(p.id_pengawas)}`}>
+                  {p.id_pengawas.join(", ") || "-"}
+                </td>
                 <td className="px-6 py-3">
                   <div className="w-full bg-gray-200 rounded-full h-4">
                     <div
-                      className={`h-4 rounded-full ${getProgressColor(p.progress)}`}
+                      className={`h-4 rounded-full ${
+                        p.progress === 100
+                          ? "bg-green-600"
+                          : p.progress >= 50
+                          ? "bg-yellow-400"
+                          : "bg-red-500"
+                      }`}
                       style={{ width: `${p.progress || 0}%` }}
                     ></div>
                   </div>
                   <span className="text-sm">{p.progress || 0}%</span>
                 </td>
-                <td className="px-6 py-3">{p.status_proyek}</td>
                 <td className="px-6 py-3 flex justify-center gap-2">
                   <button
                     onClick={() => setModalProyek(p)}
@@ -100,7 +124,7 @@ const DaftarDataProyek = () => {
             ))}
             {filteredProyek.length === 0 && (
               <tr>
-                <td colSpan={8} className="px-6 py-3 text-center text-gray-500">
+                <td colSpan={7} className="px-6 py-3 text-center text-gray-500">
                   Tidak ada proyek ditemukan
                 </td>
               </tr>
@@ -109,8 +133,17 @@ const DaftarDataProyek = () => {
         </table>
       </div>
 
+      {/* Modal Detail Proyek */}
       {modalProyek && (
         <ModalDetailProyek proyek={modalProyek} onClose={() => setModalProyek(null)} />
+      )}
+
+      {/* Modal Input Proyek */}
+      {modalInput && (
+        <ModalInputProyek
+          onClose={() => setModalInput(false)}
+          onSave={handleSaveProyek}
+        />
       )}
     </div>
   );

@@ -3,18 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiEye, HiPencil, HiTrash, HiUserAdd } from "react-icons/hi";
 import konsumenData from "../../../data/mockKonsumen.json";
+import ModalInputKonsumen from "../../../components/admin/proyek/ModalInputKonsumen"
 
 const DaftarKonsumen = () => {
   const [konsumenList, setKonsumenList] = useState([]);
-  const [isAdding, setIsAdding] = useState(false);
-  const [editingId, setEditingId] = useState(null);
-  const [form, setForm] = useState({
-    nama_lengkap: "",
-    email: "",
-    nomor_telepon: "",
-    alamat: "",
-    foto: "",
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingKonsumen, setEditingKonsumen] = useState(null);
 
   const navigate = useNavigate();
 
@@ -22,49 +16,26 @@ const DaftarKonsumen = () => {
     setKonsumenList(konsumenData);
   }, []);
 
-  const handleTambah = (e) => {
-    e.preventDefault();
-    if (!form.nama_lengkap || !form.email || !form.nomor_telepon || !form.alamat) {
-      alert("Mohon lengkapi semua field!");
-      return;
+  // Tambah atau edit konsumen
+  const handleSubmitKonsumen = (data) => {
+    if (editingKonsumen) {
+      // Edit
+      setKonsumenList(
+        konsumenList.map((k) => (k.id === editingKonsumen.id ? { ...k, ...data } : k))
+      );
+    } else {
+      // Tambah
+      const newKonsumen = {
+        id: `K-${Date.now()}`,
+        ...data,
+        id_proyek: [],
+        jenis_kelamin: null,
+        nomor_identitas: null,
+        status: "Aktif",
+      };
+      setKonsumenList([...konsumenList, newKonsumen]);
     }
-    const newData = {
-      id: `K-${Date.now()}`,
-      nama_lengkap: form.nama_lengkap,
-      email: form.email,
-      nomor_telepon: form.nomor_telepon,
-      alamat: form.alamat,
-      jenis_konsumen: "Personal",
-      alamat_pengiriman: form.alamat,
-      foto: form.foto || "https://placehold.co/80",
-      id_proyek: [],
-      jenis_kelamin: null,
-      nama_perusahaan: null,
-      bidang_usaha: null,
-      jabatan_kontak: null,
-      npwp_perusahaan: null,
-      nomor_identitas: null,
-    };
-    setKonsumenList([...konsumenList, newData]);
-    setForm({ nama_lengkap: "", email: "", nomor_telepon: "", alamat: "", foto: "" });
-    setIsAdding(false);
-  };
-
-  const handleEdit = (e) => {
-    e.preventDefault();
-    if (!form.nama_lengkap || !form.email || !form.nomor_telepon || !form.alamat) {
-      alert("Mohon lengkapi semua field!");
-      return;
-    }
-    setKonsumenList(
-      konsumenList.map((k) =>
-        k.id === editingId
-          ? { ...k, ...form, foto: form.foto || k.foto }
-          : k
-      )
-    );
-    setForm({ nama_lengkap: "", email: "", nomor_telepon: "", alamat: "", foto: "" });
-    setEditingId(null);
+    setEditingKonsumen(null);
   };
 
   const handleHapus = (id) => {
@@ -74,15 +45,8 @@ const DaftarKonsumen = () => {
   };
 
   const startEdit = (k) => {
-    setEditingId(k.id);
-    setForm({
-      nama_lengkap: k.nama_lengkap || "",
-      email: k.email || "",
-      nomor_telepon: k.nomor_telepon || "",
-      alamat: k.alamat || "",
-      foto: k.foto || "",
-    });
-    setIsAdding(false);
+    setEditingKonsumen(k);
+    setIsModalOpen(true);
   };
 
   return (
@@ -91,78 +55,20 @@ const DaftarKonsumen = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">Daftar Konsumen</h2>
         <button
-          onClick={() => {
-            setIsAdding(true);
-            setEditingId(null);
-            setForm({ nama_lengkap: "", email: "", nomor_telepon: "", alamat: "", foto: "" });
-          }}
+          onClick={() => { setEditingKonsumen(null); setIsModalOpen(true); }}
           className="btn btn-primary flex items-center gap-2"
         >
           <HiUserAdd /> Tambah Konsumen
         </button>
       </div>
 
-      {/* FORM TAMBAH / EDIT */}
-      {(isAdding || editingId) && (
-        <form
-          onSubmit={editingId ? handleEdit : handleTambah}
-          className="bg-gray-50 border rounded-xl p-4 mb-6"
-        >
-          <div className="grid md:grid-cols-2 gap-4">
-            <input
-              type="text"
-              placeholder="Nama Konsumen"
-              className="input input-bordered w-full"
-              value={form.nama_lengkap}
-              onChange={(e) => setForm({ ...form, nama_lengkap: e.target.value })}
-            />
-            <input
-              type="email"
-              placeholder="Email"
-              className="input input-bordered w-full"
-              value={form.email}
-              onChange={(e) => setForm({ ...form, email: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Nomor Telepon"
-              className="input input-bordered w-full"
-              value={form.nomor_telepon}
-              onChange={(e) => setForm({ ...form, nomor_telepon: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="Alamat"
-              className="input input-bordered w-full"
-              value={form.alamat}
-              onChange={(e) => setForm({ ...form, alamat: e.target.value })}
-            />
-            <input
-              type="text"
-              placeholder="URL Foto"
-              className="input input-bordered w-full col-span-2"
-              value={form.foto}
-              onChange={(e) => setForm({ ...form, foto: e.target.value })}
-            />
-          </div>
-          <div className="flex justify-end gap-3 mt-4">
-            <button
-              type="button"
-              className="btn btn-ghost"
-              onClick={() => {
-                setIsAdding(false);
-                setEditingId(null);
-                setForm({ nama_lengkap: "", email: "", nomor_telepon: "", alamat: "", foto: "" });
-              }}
-            >
-              Batal
-            </button>
-            <button type="submit" className="btn btn-success text-white">
-              {editingId ? "Simpan Perubahan" : "Simpan"}
-            </button>
-          </div>
-        </form>
-      )}
+      {/* MODAL INPUT */}
+      <ModalInputKonsumen
+        isOpen={isModalOpen}
+        onClose={() => { setIsModalOpen(false); setEditingKonsumen(null); }}
+        initialData={editingKonsumen}
+        onSubmit={handleSubmitKonsumen}
+      />
 
       {/* TABEL */}
       <div className="overflow-x-auto">

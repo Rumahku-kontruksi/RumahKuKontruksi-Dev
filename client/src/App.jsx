@@ -69,6 +69,7 @@ import LaporanMandorAdmin from "./pages/admin/mandor/LaporanMandorAdmin";
 
 import DaftarKonsumen from "./pages/admin/konsumen/DaftarKonsumen";
 import DetailKonsumen from "./pages/admin/konsumen/DetailKonsumen";
+import DaftarKonsumenProyek from "./pages/admin/konsumen/DaftarKonsumenProyek";
 
 import LaporanKonsumenAdmin from "./pages/admin/konsumen/TimelineProyekKonsumenAdmin";
 // ----- Laporan ------
@@ -150,6 +151,7 @@ function App() {
           {/* // ----- konsumen ------ */}
           <Route path="konsumen" element={<DaftarKonsumen />} />
           <Route path="konsumen/:id" element={<DetailKonsumen />} />
+          <Route path="konsumen/proyek" element={<DaftarKonsumenProyek />} />
           
           <Route path="konsumen/timeline" element={<LaporanKonsumenAdmin />} />
           {/* // ----- Laporan ------ */}
