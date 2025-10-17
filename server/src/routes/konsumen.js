@@ -1,11 +1,22 @@
+// server/src/routes/konsumen.js
 const express = require('express');
 const router = express.Router();
-const { getAllKonsumen, getKonsumenByJenis } = require('../controller/konsumenController');
+const konsumenController = require('../controller/konsumenController');
 
-// Semua konsumen
-router.get('/', getAllKonsumen);
+// GET all konsumen
+router.get('/', konsumenController.getAllKonsumen);
 
-// Konsumen berdasarkan jenis
-router.get('/:jenis', getKonsumenByJenis);
+// GET konsumen by id
+router.get('/:id', konsumenController.getKonsumenById);
+
+// POST create new konsumen
+router.post('/', konsumenController.createKonsumen);
+
+// PUT update konsumen
+router.put('/:id', konsumenController.updateKonsumen);
+
+// DELETE konsumen
+router.delete('/:id', konsumenController.deleteKonsumen);
 
 module.exports = router;
+

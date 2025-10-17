@@ -1,40 +1,66 @@
-// client/src/pages/admin/proyek/DaftarDataProyek.jsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { HiPlus, HiEye, HiPencil, HiUpload } from "react-icons/hi";
-import dataProyek from "../../../data/mockProyek.json";
 import ModalDetailProyek from "../../../components/admin/proyek/ModalDetailProyek";
 import ModalInputProyek from "../../../components/admin/proyek/ModalInputProyek";
 
 const DaftarDataProyek = () => {
-  const [proyek, setProyek] = useState(dataProyek);
+  const [proyek, setProyek] = useState([]);
   const [search, setSearch] = useState("");
   const [modalProyek, setModalProyek] = useState(null);
   const [modalInput, setModalInput] = useState(false);
 
-  // Filter proyek
+  useEffect(() => {
+    fetchProyek();
+  }, []);
+
+  const fetchProyek = async () => {
+    try {
+      const res = await axios.get("http://localhost:3000/proyek");
+      const proyekData = await Promise.all(
+        res.data.map(async (p) => {
+          // Fetch nama Konsumen
+          let konsumenNama = "-";
+          if (p.id_konsumen) {
+            const konsumenRes = await axios.get(`http://localhost:3000/konsumen/${p.id_konsumen}`);
+            konsumenNama = konsumenRes.data.nama_konsumen || "-";
+          }
+
+          // Fetch nama Mandor
+          let mandorNama = "-";
+          if (p.id_mandor) {
+            const mandorRes = await axios.get(`http://localhost:3000/mandor/${p.id_mandor}`);
+            mandorNama = mandorRes.data.nama_mandor || "-";
+          }
+
+          // Fetch nama Pengawas
+          let pengawasNama = "-";
+          if (p.id_pengawas) {
+            const pengawasRes = await axios.get(`http://localhost:3000/pengawas/${p.id_pengawas}`);
+            pengawasNama = pengawasRes.data.nama_pengawas || "-";
+          }
+
+          return {
+            ...p,
+            konsumenNama,
+            mandorNama,
+            pengawasNama
+          };
+        })
+      );
+
+      setProyek(proyekData);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const filteredProyek = proyek.filter((p) =>
     (p.nama_proyek?.toLowerCase() || "").includes(search.toLowerCase())
   );
 
-  // Upload siap
-  const isUploadReady = (p) =>
-    p.id_mandor.length > 0 &&
-    p.id_pengawas.length > 0 &&
-    p.list_rab.length > 0;
+  const isUploadReady = (p) => p.id_mandor && p.id_pengawas;
 
-  // Warna Mandor
-  const getMandorColor = (value) => {
-    if (!value || value.length === 0) return "text-red-600";
-    return "text-green-600";
-  };
-
-  // Warna Pengawas
-  const getPengawasColor = (value) => {
-    if (!value || value.length === 0) return "text-yellow-600";
-    return "text-green-600";
-  };
-
-  // Fungsi menyimpan proyek baru dari modal
   const handleSaveProyek = (newProyek) => {
     setProyek((prev) => [...prev, newProyek]);
   };
@@ -66,10 +92,10 @@ const DaftarDataProyek = () => {
             <tr>
               <th className="px-6 py-3">No</th>
               <th className="px-6 py-3">Nama Proyek</th>
-              <th className="px-6 py-3">Nilai Proyek</th>
+              <th className="px-6 py-3">Anggaran</th>
+              <th className="px-6 py-3">Konsumen</th>
               <th className="px-6 py-3">Mandor</th>
               <th className="px-6 py-3">Pengawas</th>
-              <th className="px-6 py-3">Progress</th>
               <th className="px-6 py-3 text-center">Aksi</th>
             </tr>
           </thead>
@@ -81,28 +107,10 @@ const DaftarDataProyek = () => {
               >
                 <td className="px-6 py-3">{idx + 1}</td>
                 <td className="px-6 py-3 font-medium">{p.nama_proyek}</td>
-                <td className="px-6 py-3">{p.nilai_proyek?.toLocaleString("id-ID")}</td>
-                <td className={`px-6 py-3 font-semibold ${getMandorColor(p.id_mandor)}`}>
-                  {p.id_mandor.join(", ") || "-"}
-                </td>
-                <td className={`px-6 py-3 font-semibold ${getPengawasColor(p.id_pengawas)}`}>
-                  {p.id_pengawas.join(", ") || "-"}
-                </td>
-                <td className="px-6 py-3">
-                  <div className="w-full bg-gray-200 rounded-full h-4">
-                    <div
-                      className={`h-4 rounded-full ${
-                        p.progress === 100
-                          ? "bg-green-600"
-                          : p.progress >= 50
-                          ? "bg-yellow-400"
-                          : "bg-red-500"
-                      }`}
-                      style={{ width: `${p.progress || 0}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-sm">{p.progress || 0}%</span>
-                </td>
+                <td className="px-6 py-3">{p.anggaran?.toLocaleString("id-ID") || "-"}</td>
+                <td className="px-6 py-3">{p.konsumenNama}</td>
+                <td className="px-6 py-3">{p.mandorNama}</td>
+                <td className="px-6 py-3">{p.pengawasNama}</td>
                 <td className="px-6 py-3 flex justify-center gap-2">
                   <button
                     onClick={() => setModalProyek(p)}
@@ -133,12 +141,10 @@ const DaftarDataProyek = () => {
         </table>
       </div>
 
-      {/* Modal Detail Proyek */}
       {modalProyek && (
         <ModalDetailProyek proyek={modalProyek} onClose={() => setModalProyek(null)} />
       )}
 
-      {/* Modal Input Proyek */}
       {modalInput && (
         <ModalInputProyek
           onClose={() => setModalInput(false)}

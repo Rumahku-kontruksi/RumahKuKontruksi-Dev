@@ -1,28 +1,21 @@
 // server/src/routes/rab.js
-
 const express = require('express');
 const router = express.Router();
 const rabController = require('../controller/rabController');
 
-// RAB PROYEK
-router.get('/proyek', rabController.getAllRabProyek);
-router.get('/proyek/:id', rabController.getRabProyekById);
-router.post('/proyek', rabController.createRabProyek);
-router.put('/proyek/:id', rabController.updateRabProyek);
-router.delete('/proyek/:id', rabController.deleteRabProyek);
+// GET all RAB
+router.get('/', rabController.getAllRAB);
 
-// RAB KATEGORI
-router.get('/kategori', rabController.getAllRabKategori);
-router.get('/kategori/:id', rabController.getRabKategoriById);
-router.post('/kategori', rabController.createRabKategori);
-router.put('/kategori/:id', rabController.updateRabKategori);
-router.delete('/kategori/:id', rabController.deleteRabKategori);
+// GET RAB by id
+router.get('/:id', rabController.getRABById);
 
-// RAB PEKERJAAN
-router.get('/pekerjaan', rabController.getAllRabPekerjaan);
-router.get('/pekerjaan/:id', rabController.getRabPekerjaanById);
-router.post('/pekerjaan', rabController.createRabPekerjaan);
-router.put('/pekerjaan/:id', rabController.updateRabPekerjaan);
-router.delete('/pekerjaan/:id', rabController.deleteRabPekerjaan);
+// POST create new RAB
+router.post('/', rabController.createRAB);
+
+// PUT update RAB
+router.put('/:id', rabController.updateRAB);
+
+// DELETE RAB
+router.delete('/:id', rabController.deleteRAB);
 
 module.exports = router;

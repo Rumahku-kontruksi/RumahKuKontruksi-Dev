@@ -1,113 +1,122 @@
 // server/src/controller/proyekController.js
-
 const pool = require('../config/db');
 
 // GET all proyek
-const getAllProyek = async (req, res) => {
+exports.getAllProyek = async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM tb_proyek ORDER BY id_proyek');
+    const result = await pool.query('SELECT * FROM tb_proyek ORDER BY created_at DESC');
     res.json(result.rows);
   } catch (err) {
-    console.error('ERROR getAllProyek:', err);
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch proyek' });
   }
 };
 
-// GET proyek by ID
-const getProyekById = async (req, res) => {
-  const { id } = req.params;
+// GET proyek by id
+exports.getProyekById = async (req, res) => {
   try {
+    const { id } = req.params;
     const result = await pool.query('SELECT * FROM tb_proyek WHERE id_proyek = $1', [id]);
-    if (result.rows.length === 0) return res.status(404).json({ error: 'Proyek not found' });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Proyek not found' });
+    }
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('ERROR getProyekById:', err);
-    res.status(500).json({ error: err.message });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch proyek' });
   }
 };
 
-// CREATE new proyek
-const createProyek = async (req, res) => {
-  const {
-    id_proyek, id_konsumen, id_mandor, id_pengawas, id_rab,
-    nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai,
-    status_proyek, anggaran, catatan, created_by
-  } = req.body;
-
+// POST create new proyek
+exports.createProyek = async (req, res) => {
   try {
-    const query = `
-      INSERT INTO tb_proyek (
-        id_proyek, id_konsumen, id_mandor, id_pengawas, id_rab,
-        nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai,
-        status_proyek, anggaran, catatan, created_by
-      )
+    const {
+      id_konsumen,
+      id_mandor,
+      id_pengawas,
+      id_rab,
+      nama_proyek,
+      alamat,
+      lokasi,
+      tanggal_mulai,
+      tanggal_selesai,
+      status_proyek,
+      anggaran,
+      catatan,
+      created_by,
+      updated_by
+    } = req.body;
+
+    const result = await pool.query(
+      `INSERT INTO tb_proyek
+      (id_konsumen, id_mandor, id_pengawas, id_rab, nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai, status_proyek, anggaran, catatan, created_by, updated_by)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
-      RETURNING *
-    `;
-    const values = [
-      id_proyek, id_konsumen, id_mandor, id_pengawas, id_rab,
-      nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai,
-      status_proyek, anggaran, catatan, created_by
-    ];
-    const result = await pool.query(query, values);
+      RETURNING *`,
+      [id_konsumen, id_mandor, id_pengawas, id_rab, nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai, status_proyek, anggaran, catatan, created_by, updated_by]
+    );
+
     res.status(201).json(result.rows[0]);
   } catch (err) {
-    console.error('ERROR createProyek:', err);
-    res.status(500).json({ error: 'Server error' });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to create proyek' });
   }
 };
 
-// UPDATE proyek
-const updateProyek = async (req, res) => {
-  const { id } = req.params;
-  const {
-    id_konsumen, id_mandor, id_pengawas, id_rab,
-    nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai,
-    status_proyek, anggaran, catatan, updated_by
-  } = req.body;
-
+// PUT update proyek
+exports.updateProyek = async (req, res) => {
   try {
-    const query = `
-      UPDATE tb_proyek
-      SET
+    const { id } = req.params;
+    const {
+      id_konsumen,
+      id_mandor,
+      id_pengawas,
+      id_rab,
+      nama_proyek,
+      alamat,
+      lokasi,
+      tanggal_mulai,
+      tanggal_selesai,
+      status_proyek,
+      anggaran,
+      catatan,
+      updated_by
+    } = req.body;
+
+    const result = await pool.query(
+      `UPDATE tb_proyek SET 
         id_konsumen=$1, id_mandor=$2, id_pengawas=$3, id_rab=$4,
         nama_proyek=$5, alamat=$6, lokasi=$7, tanggal_mulai=$8, tanggal_selesai=$9,
-        status_proyek=$10, anggaran=$11, catatan=$12,
-        updated_at=NOW(), updated_by=$13
-      WHERE id_proyek=$14
-      RETURNING *
-    `;
-    const values = [
-      id_konsumen, id_mandor, id_pengawas, id_rab,
-      nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai,
-      status_proyek, anggaran, catatan, updated_by, id
-    ];
-    const result = await pool.query(query, values);
-    if (result.rows.length === 0) return res.status(404).json({ error: 'Proyek not found' });
+        status_proyek=$10, anggaran=$11, catatan=$12, updated_by=$13, updated_at=NOW()
+       WHERE id_proyek=$14
+       RETURNING *`,
+      [id_konsumen, id_mandor, id_pengawas, id_rab, nama_proyek, alamat, lokasi, tanggal_mulai, tanggal_selesai, status_proyek, anggaran, catatan, updated_by, id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Proyek not found' });
+    }
+
     res.json(result.rows[0]);
   } catch (err) {
-    console.error('ERROR updateProyek:', err);
-    res.status(500).json({ error: 'Server error' });
+    console.error(err);
+    res.status(500).json({ error: 'Failed to update proyek' });
   }
 };
 
 // DELETE proyek
-const deleteProyek = async (req, res) => {
-  const { id } = req.params;
+exports.deleteProyek = async (req, res) => {
   try {
-    const result = await pool.query('DELETE FROM tb_proyek WHERE id_proyek=$1 RETURNING *', [id]);
-    if (result.rows.length === 0) return res.status(404).json({ error: 'Proyek not found' });
-    res.json({ message: 'Proyek deleted', data: result.rows[0] });
-  } catch (err) {
-    console.error('ERROR deleteProyek:', err);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
+    const { id } = req.params;
 
-module.exports = {
-  getAllProyek,
-  getProyekById,
-  createProyek,
-  updateProyek,
-  deleteProyek
+    const result = await pool.query('DELETE FROM tb_proyek WHERE id_proyek=$1 RETURNING *', [id]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Proyek not found' });
+    }
+
+    res.json({ message: 'Proyek deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to delete proyek' });
+  }
 };
