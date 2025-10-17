@@ -1,3 +1,5 @@
+// server/src/controller/mandorController.js
+
 const pool = require('../config/db');
 
 // GET all mandor

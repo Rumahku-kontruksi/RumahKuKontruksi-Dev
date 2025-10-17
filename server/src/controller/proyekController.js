@@ -1,3 +1,5 @@
+// server/src/controller/proyekController.js
+
 const pool = require('../config/db');
 
 // GET all proyek

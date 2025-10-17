@@ -1,3 +1,5 @@
+// server/src/routes/mandor.js
+
 const express = require('express');
 const router = express.Router();
 const mandorController = require('../controller/mandorController');
