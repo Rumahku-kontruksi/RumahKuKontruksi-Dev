@@ -29,33 +29,7 @@ import ProgresProyekMandor from "./pages/mandor/ProgresProyekMandor";
 // ===== HALAMAN ADMIN =====
 import DashboardAdmin from "./pages/admin/DashboardAdmin";
 // ----- Proyek ------
-import DaftarProyek from "./pages/admin/proyek/DaftarDataProyek";
-import DetailProyek from "./pages/admin/proyek/DetailDataProyek";
-import TambahkanDataProyek from "./pages/admin/proyek/TambahkanDataProyek";
 
-import DaftarRAB from "./pages/admin/proyek/DaftarRAB";
-
-import DaftarTimelineProyekAdmin from "./pages/admin/proyek/DaftarTimelineProyekAdmin";
-import LaporanProyekAdmin from "./pages/admin/proyek/LaporanProyekAdmin";
-import DetailLaporanProyekAdmin from "./pages/admin/proyek/DetailLaporanProyekAdmin";
-import DaftarDokumentasiProyek from "./pages/admin/proyek/DaftarDokumentasiProyek";
-import DetailDokumentasiProyek from "./pages/admin/proyek/DetailDokumentasiProyek";
-import DaftarRevisiProyek from "./pages/admin/proyek/DaftarRevisiProyek";
-import DetailRevisiProyek from "./pages/admin/proyek/DetailRevisiProyek";
-import DaftarCatatanProyek from "./pages/admin/proyek/DaftarCatatanLapangan";
-import DetailCatatanProyek from "./pages/admin/proyek/DetailCatatanLapangan";
-import DaftarProyekBerjalan from "./pages/admin/proyek/DaftarProyekBerjalan";
-import DetailProyekBerjalan from "./pages/admin/proyek/DetailProyekBerjalan";
-import DaftarProyekSelesai from "./pages/admin/proyek/DaftarHistoriProyek";
-import DetailProyekSelesai from "./pages/admin/proyek/DetailHistoriProyek";
-
-
-import TimelineProyekAdmin from "./pages/admin/proyek/TimelineProyekAdmin";
-
-import PengawasRABAdmin from "./pages/admin/proyek/PengawasRABAdmin";
-import PengajuanMandorAdmin from "./pages/admin/proyek/PengajuanMandorAdmin";
-
-import InputRABAdmin from "./pages/admin/proyek/InputRABAdmin";
 
 
 // ----- Pengawas ------
@@ -113,33 +87,7 @@ function App() {
           <Route path="dashboard" element={<DashboardAdmin />} />
           
           
-          <Route path="proyek" element={<DaftarProyek />} />
-          <Route path="proyek/:id" element={<DetailProyek />} />
-          <Route path="proyek/tambah" element={<TambahkanDataProyek />} />
-          <Route path="proyek/DaftarRAB" element={<DaftarRAB />} />
-
           
-          <Route path="proyek/daftartimeline" element={<DaftarTimelineProyekAdmin />} />
-          <Route path="proyek/timelineproyek/:id" element={<TimelineProyekAdmin />} />
-          <Route path="proyek/laporan-proyek" element={<LaporanProyekAdmin />} />
-          <Route path="proyek/laporan-proyek/:id" element={<DetailLaporanProyekAdmin />} />
-          <Route path="proyek/dokumentasi-proyek" element={<DaftarDokumentasiProyek />} /> 
-          <Route path="proyek/dokumentasi-proyek/:id" element={<DetailDokumentasiProyek />} />
-          <Route path="proyek/revisi" element={<DaftarRevisiProyek />} />
-          <Route path="proyek/revisi/:id" element={<DetailRevisiProyek />} />
-          <Route path="proyek/catatan-proyek" element={<DaftarCatatanProyek />} />
-          <Route path="proyek/catatan-proyek/:id" element={<DetailCatatanProyek />} />
-          <Route path="proyek/berjalan" element={<DaftarProyekBerjalan />} />
-          <Route path="proyek/berjalan/:id" element={<DetailProyekBerjalan />} />          
-          <Route path="proyek/histori" element={<DaftarProyekSelesai />} />
-          <Route path="proyek/histori/:id" element={<DetailProyekSelesai />} />
-
-
-
-          <Route path="proyek/pengawasrab" element={<PengawasRABAdmin />} />
-          <Route path="proyek/mandor" element={<PengajuanMandorAdmin />} />
-          
-          <Route path="proyek/inputrab" element={<InputRABAdmin />} />
           {/* // ----- Pengawas ------ */}
           <Route path="pengawas" element={<DaftarPengawas />} />
           <Route path="pengawas/laporan" element={<LaporanPengawasAdmin />} />
