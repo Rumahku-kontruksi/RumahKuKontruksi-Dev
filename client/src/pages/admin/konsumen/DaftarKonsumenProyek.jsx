@@ -1,64 +1,161 @@
+// ==============================
+// File: DaftarKonsumenProyek.jsx
+// ==============================
 import React, { useEffect, useState } from "react";
-import mockKonsumen from "../../../data/mockKonsumen.json";
-import mockProyek from "../../../data/mockProyek.json";
+import { HiEye, HiPencil, HiTrash } from "react-icons/hi";
+import axios from "axios";
+
+// 🔜 nanti bisa dibuat terpisah
+// import EditProyek from "../../../components/admin/proyek/EditProyek";
+// import DetailProyek from "../../../components/admin/proyek/DetailProyek";
 
 const DaftarKonsumenProyek = () => {
-  const [dataGabung, setDataGabung] = useState([]);
+  const [proyekList, setProyekList] = useState([]);
+  const [selectedProyek, setSelectedProyek] = useState(null);
+  const [modalEditOpen, setModalEditOpen] = useState(false);
+  const [modalDetailOpen, setModalDetailOpen] = useState(false);
+
+  const API_PROYEK = "http://localhost:3000/proyek";
+
+  // 🔄 Ambil semua proyek (sudah join ke konsumen)
+  const fetchProyek = async () => {
+    try {
+      const res = await axios.get(API_PROYEK);
+      const data = res.data.data || res.data;
+
+      // hanya tampilkan proyek yang punya id_konsumen
+      const filtered = data.filter((p) => p.id_konsumen);
+
+      setProyekList(filtered);
+    } catch (err) {
+      console.error(err);
+      alert("Gagal mengambil data proyek");
+    }
+  };
 
   useEffect(() => {
-    // Gabungkan data konsumen dengan proyek berdasarkan id_konsumen
-    const hasilGabung = mockKonsumen.map((konsumen) => {
-      const proyekTerkait = mockProyek.filter((p) =>
-        p.id_konsumen.includes(konsumen.id_konsumen)
-      );
-      return { ...konsumen, proyek: proyekTerkait };
-    });
-    setDataGabung(hasilGabung);
+    fetchProyek();
   }, []);
 
+  // 👁️ Lihat detail proyek
+  const openDetail = (proyek) => {
+    setSelectedProyek(proyek);
+    setModalDetailOpen(true);
+  };
+
+  // ✏️ Edit proyek
+  const openEdit = (proyek) => {
+    setSelectedProyek(proyek);
+    setModalEditOpen(true);
+  };
+
+  // 🗑️ Hapus proyek
+  const handleHapus = async (proyek) => {
+    if (
+      window.confirm(`Apakah yakin ingin menghapus proyek ${proyek.nama_proyek}?`)
+    ) {
+      try {
+        await axios.delete(`${API_PROYEK}/${proyek.id_proyek}`);
+        fetchProyek();
+      } catch (err) {
+        console.error(err);
+        alert("Gagal menghapus proyek");
+      }
+    }
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Daftar Konsumen & Proyek</h1>
+    <div className="p-6 bg-white rounded-xl shadow-md">
+      {/* ================= HEADER ================= */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Daftar Konsumen & Proyek</h2>
+      </div>
 
-      <div className="space-y-4">
-        {dataGabung.map((item) => (
-          <div
-            key={item.id_konsumen}
-            className="border border-gray-200 shadow-sm rounded-lg p-4"
-          >
-            <h2 className="text-xl font-semibold text-gray-800">
-              {item.nama_konsumen}
-            </h2>
-            <p className="text-gray-600">Email: {item.email}</p>
-            <p className="text-gray-600">Telepon: {item.telepon}</p>
-            <p className="text-gray-600 mb-2">Alamat: {item.alamat}</p>
+      {/* ================= MODAL DETAIL ================= */}
+      {modalDetailOpen && selectedProyek && (
+        <DetailProyek
+          isOpen={modalDetailOpen}
+          onClose={() => setModalDetailOpen(false)}
+          proyek={selectedProyek}
+        />
+      )}
 
-            {item.proyek.length > 0 ? (
-              <div className="mt-3">
-                <h3 className="font-medium text-gray-700 mb-2">
-                  Proyek yang dimiliki:
-                </h3>
-                <ul className="list-disc list-inside space-y-1">
-                  {item.proyek.map((proyek) => (
-                    <li key={proyek.id_proyek}>
-                      <span className="font-semibold">{proyek.nama_proyek}</span> {" "}
-                      <span className="text-gray-500">
-                        ({proyek.jenis_proyek})
-                      </span>
-                      <p className="text-gray-600 text-sm ml-4">
-                        Deskripsi: {proyek.deskripsi}
-                      </p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      {/* ================= MODAL EDIT ================= */}
+      {modalEditOpen && selectedProyek && (
+        <EditProyek
+          isOpen={modalEditOpen}
+          onClose={() => setModalEditOpen(false)}
+          proyek={selectedProyek}
+          refreshList={fetchProyek}
+        />
+      )}
+
+      {/* ================= TABEL ================= */}
+      <div className="overflow-x-auto">
+        <table className="table table-zebra w-full">
+          <thead className="bg-teal-600 text-white">
+            <tr>
+              <th>No</th>
+              <th>ID Proyek</th>
+              <th>Nama Proyek</th>
+              <th>Nama Konsumen</th>
+              <th>Jenis Konsumen</th>
+              <th>Lokasi</th>
+              <th>Status</th>
+              <th>Anggaran</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            {proyekList.length > 0 ? (
+              proyekList.map((p, i) => (
+                <tr key={p.id_proyek}>
+                  <td>{i + 1}</td>
+                  <td>{p.id_proyek}</td>
+                  <td>{p.nama_proyek}</td>
+                  <td>{p.nama_konsumen || p.nama_lengkap || "-"}</td>
+                  <td>{p.jenis_konsumen || "-"}</td>
+                  <td>{p.lokasi || "-"}</td>
+                  <td>{p.status_proyek || "-"}</td>
+                  <td>
+                    {p.anggaran
+                      ? `Rp ${Number(p.anggaran).toLocaleString("id-ID")}`
+                      : "-"}
+                  </td>
+                  <td className="flex gap-2 flex-wrap">
+                    <button
+                      className="btn btn-sm btn-info"
+                      onClick={() => openDetail(p)}
+                      title="Lihat Detail"
+                    >
+                      <HiEye />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-warning"
+                      onClick={() => openEdit(p)}
+                      title="Edit"
+                    >
+                      <HiPencil />
+                    </button>
+                    <button
+                      className="btn btn-sm btn-error"
+                      onClick={() => handleHapus(p)}
+                      title="Hapus"
+                    >
+                      <HiTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))
             ) : (
-              <p className="text-sm text-gray-500 italic">
-                Belum memiliki proyek.
-              </p>
+              <tr>
+                <td colSpan="9" className="text-center py-4 text-gray-500">
+                  Belum ada proyek yang terdaftar.
+                </td>
+              </tr>
             )}
-          </div>
-        ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

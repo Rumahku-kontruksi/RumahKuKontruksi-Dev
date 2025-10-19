@@ -16,13 +16,14 @@ import {
   HiClock,
   HiCheckCircle,
   HiCollection,
+  HiOutlineUserAdd,
   
 } from "react-icons/hi";
 
 import { MdSupervisorAccount } from "react-icons/md";
 
 const menuItems = [
-  { name: "Dashboard", path: "/admin/dashboard", icon: <HiHome size={20} /> },
+  { name: "Dashboard", path: "/admin", icon: <HiHome size={20} /> },
 
   // ===================== PROYEK =====================
   {
@@ -48,7 +49,8 @@ const menuItems = [
     icon: <HiUserGroup size={20} />,
     subMenu: [
       { name: "Data Konsumen", path: "/admin/konsumen", icon: <HiUser size={16} /> },
-      { name: "Proyek Konsumen", path: "/admin/konsumen/proyek", icon: <HiClipboardList size={16} /> },
+      { name: "Konsumen Belum Lengkap", path: "/admin/konsumen/belum-lengkap", icon: <HiOutlineUserAdd size={20} /> },
+      { name: "Proyek Konsumen", path: "/admin/konsumen-proyek", icon: <HiFolder size={16} /> },
       { name: "RAB & Pembayaran", path: "/admin/konsumen/rab", icon: <HiCash size={16} /> },
       { name: "Dokumen Proyek", path: "/admin/konsumen/dokumen", icon: <HiFolder size={16} /> },
       { name: "Timeline Proyek", path: "/admin/konsumen/timeline", icon: <HiClock size={16} /> },

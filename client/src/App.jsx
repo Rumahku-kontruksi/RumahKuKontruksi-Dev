@@ -41,6 +41,7 @@ import DaftarMandor from "./pages/admin/mandor/DaftarMandor";
 import LaporanMandorAdmin from "./pages/admin/mandor/LaporanMandorAdmin"; 
 // ----- Konsumen ------
 import DaftarKonsumen from "./pages/admin/konsumen/DaftarKonsumen";
+import KonsumenBelumLengkap from "./pages/admin/konsumen/DaftarBelumLengkap";
 import DaftarKonsumenProyek from "./pages/admin/konsumen/DaftarKonsumenProyek";
 
 import LaporanKonsumenAdmin from "./pages/admin/konsumen/TimelineProyekKonsumenAdmin";
@@ -84,7 +85,7 @@ function App() {
         {/* ================== ADMIN LAYOUT ================== */}
         <Route path="/admin" element={<AdminLayout />}>
         {/* // ----- Proyek ------ */}
-          <Route path="dashboard" element={<DashboardAdmin />} />
+          <Route path="/admin" element={<DashboardAdmin />} />
           
           
           
@@ -96,8 +97,9 @@ function App() {
           <Route path="mandor/laporan" element={<LaporanMandorAdmin />} />
           {/* // ----- konsumen ------ */}
           <Route path="konsumen" element={<DaftarKonsumen />} />
+          <Route path="konsumen/belum-lengkap" element={<KonsumenBelumLengkap />} />
+          <Route path="konsumen-proyek" element={<DaftarKonsumenProyek />} />
           
-          <Route path="konsumen/proyek" element={<DaftarKonsumenProyek />} />
           
           <Route path="konsumen/timeline" element={<LaporanKonsumenAdmin />} />
           {/* // ----- Laporan ------ */}
