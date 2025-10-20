@@ -10,7 +10,7 @@ import KonsumenLayout from "./layouts/KonsumenLayout";
 // ===== HALAMAN UMUM =====
 import Home from "./pages/Home";
 import About from "./pages/Tentang";
-import Contact from "./pages/contact";
+import Contact from "./pages/Contact";
 
 // ===== HALAMAN KONSUMEN =====
 import TimelineProyek from "./pages/konsumen/TimelineProyek";
