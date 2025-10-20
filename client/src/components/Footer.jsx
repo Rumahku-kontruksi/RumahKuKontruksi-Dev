@@ -43,13 +43,13 @@ const Footer = () => {
               <Link to="/" className="hover:text-[#E67E22] transition-colors">Beranda</Link>
             </li>
             <li>
-              <Link to="/tentang" className="hover:text-[#E67E22] transition-colors">Tentang</Link>
+              <Link to="/about" className="hover:text-[#E67E22] transition-colors">Tentang</Link>
             </li>
             <li>
-              <Link to="/layanan" className="hover:text-[#E67E22] transition-colors">Layanan</Link>
+              <Link to="/about" className="hover:text-[#E67E22] transition-colors">Layanan</Link>
             </li>
             <li>
-              <Link to="/kontak" className="hover:text-[#E67E22] transition-colors">Kontak</Link>
+              <Link to="/contact" className="hover:text-[#E67E22] transition-colors">Kontak</Link>
             </li>
           </ul>
         </div>
@@ -68,7 +68,7 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              Telepon: <span className="text-gray-800">+62 812-3456-7890</span>
+              Telepon: <span className="text-gray-800">+62 812-8888-8888</span>
             </li>
             <li>© 2025 Seeusyah. All rights reserved.</li>
           </ul>
